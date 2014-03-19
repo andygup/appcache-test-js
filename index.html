@@ -25,8 +25,26 @@
             width: 100%;
             height: 30px;
         }
+        #btn-get-tiles{
+            position: relative; float: left;
+        }
     </style>
+    <script>
+        var locationPath = location.pathname.replace(/\/[^/]+$/, "");
+        var dojoConfig = {
+            paths: {
+                edit: locationPath  + "/libs/offline-editor-js/edit",
+                tiles: locationPath  + "/libs/offline-editor-js/tiles",
+                /*
+                 utils: locationPath  + "/libs/offline-editor-js/utils"
+                 */
+                vendor: locationPath + "/libs/offline-editor-js"
+            }
+        }
+    </script>
     <script src="lib/dojo/dojo/dojo.js" data-dojo-config="async: true"></script>
+    <script src="libs/offline/offline.min.js"></script>
+    <script src="libs/IndexedDBShim/IndexedDBShim.min.js"></script>
     <script>
         var map;
 
@@ -43,7 +61,7 @@
 
 <body>
 <div id="button-div1">
-    <button style="position: relative; float: left;">Get Tiles</button>
+    <button id="btn-get-tiles">Get Tiles</button>
 </div>
 <div id="map"></div>
 </body>
