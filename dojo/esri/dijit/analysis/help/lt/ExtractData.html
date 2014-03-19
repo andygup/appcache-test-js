@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="Stylesheet" href="../css/analysis.css" />
+    <script type="text/javascript">
+        function init() {
+            if (window.location.hash) {
+                var parentDiv, nodes, i, helpId;
+                helpId = window.location.hash.substring(1);
+                parentDiv = document.getElementById("topics");
+                nodes = parentDiv.children;
+                for(i=0; i < nodes.length; i++) {
+                    if(nodes[i].id !== helpId) {
+                        nodes[i].style.display ="none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="topics">
+    <div id="toolDescription" class="largesize">
+        <h2>Itraukti duomenis</h2><p/>
+        <h2></h2>
+        <hr/>
+    <p>Naudodami į įrankį, galite pa˛ymėti ir parsisiųsti dominančios teritorijos duomenis. Jūsų pasirinkti sluoksniai bus pridėti į zip arba csv failą.
+    </p>
+    </div>
+    <!--Parameter divs for each param-->
+    <div id="InputLayers">
+        <div><h2>Irenkami sluoksniai</h2></div>
+        <hr/>
+        <div>
+            <p>I sluoksnių turinyje galite itraukti elementus.  Pa˛ymėti sluoksniai bus itraukti ir pridėti į rezultatų zip arba csv failą.
+            </p>
+            <p>Tam, kad sluoksnis būtų irenkamų sluoksnių sąrae, turite arba būti duomenų sąvininku, arba savininkas turi būti įgalinęs duomenų eksportavimą.    Kad leistumėte duomenų eksportavimą:
+                <ul>
+                    <li>Atverkite duomenų apraą.
+                    </li>
+                    <li>Paspauskite REDAGUOTI apraą.
+                    </li>
+                    <li>Pereikite į skyrelį 
+                        <b>Savybės</b>.
+                    </li>
+                    <li>Pa˛ymėkite 
+                        <b>Eksportuoti duomenis</b>.
+                    </li>
+                </ul>
+                
+            </p>
+            
+        </div>
+    </div>
+    <div id="AreaOfInterest">
+        <div><h2>Tiriama teritorija</h2></div>
+        <hr/>
+        <div>
+            <p>Plotas, apibrė˛iantis elementus, kurie bus pridėti į ivesties zip arba csv failą. Teritoriją galite pasirinkti tokiais būdais:
+                <ul>
+                    <li>Matoma teritorija (
+                        <b>Esama ˛emėlapio aprėptis</b>).
+                    </li>
+                    <li>Vienas i sluoksnių turinyje.
+                    </li>
+                    <li>Įbrė˛iama teritorija, nusakanti tiriamąjį plotą.
+                    </li>
+                </ul>
+                 Visi elementai, pilnai patenkantys į ˛emėlapio aprėptį bus eksportuoti.  Elementams, kurie i dalies patenka į teritoriją galite pasirinkti:
+                <ul>
+                    <li>
+                        <b>Pa˛ymėti elementus</b>&mdash;visi elementai, kertantys ribą, bus eksportuoti.
+                    </li>
+                    <li>
+                        <b>Apkirpti elementus</b>&mdash;bus eksportuotos tik tos elementų dalys, kurios patenka į teritoriją.
+                    </li>
+                </ul>
+                
+            </p>
+        </div>
+    </div>
+    <div id="OutputFormat">
+        <div><h2>Rezultato duomenų formatas</h2></div>
+        <hr/>
+        <div>
+            <p>Duomenų, kurie bus itraukti, formatas. Eksportuojant linijų arba plotų elementus į csv failus, atrenkami tik neerdviniai atributai.  Eksportuojant takinius elementus, atrenkami tiek erdviniai, tiek ne erdviniai atributai.  
+            </p>
+        </div>
+    </div>
+    <div id="OutputName">
+        <div><h2>Rezultatų failo vardas</h2></div>
+        <hr/>
+        <div>
+            <p>
+                Elemento, kuris bus patalpintas į
+                <b>Mano Turinį</b>, vardas.  Elemento vardas formuojamas pagal nurodytą
+                <b>Ivesties duomenų formatas</b> parinktį.     Jei elementas jau egzistuoja, galėsite pasirinkti jį perrayti.
+            </p>
+            <p>Naudodami 
+                <b>Rezultatą įrayti į</b> sąraą, galite nurodyti
+                <b>Mano Turinyje</b> esančio aplanko pavadinimą.
+            </p>
+        </div>
+    </div>
+</div>
+</html>

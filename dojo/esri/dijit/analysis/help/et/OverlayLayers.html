@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="Stylesheet" href="../css/analysis.css" />
+    <script type="text/javascript">
+        function init() {
+            if (window.location.hash) {
+                var parentDiv, nodes, i, helpId;
+                helpId = window.location.hash.substring(1);
+                parentDiv = document.getElementById("topics");
+                nodes = parentDiv.children;
+                for(i=0; i < nodes.length; i++) {
+                    if(nodes[i].id !== helpId) {
+                        nodes[i].style.display ="none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="topics">
+    <div id="toolDescription" class="largesize">
+        <h2>Kattuvad kihid</h2><p/>
+        <h2></h2>
+        <hr/>
+    <p>Kattuvus &uuml;hendab omavahel kaks v&otilde;i enam kihti &uuml;heks kihiks.  V&otilde;ite m&otilde;ista kihtide &uuml;lekatet kui hunniku kaartide l&auml;bimist ja &uuml;he konkreetse kaardi loomist k&otilde;ikide nende l&auml;bitud kaartide informatsiooni hulgast. &Uuml;lekate on m&auml;rksa enamat kui vaid lihtne liitmine; k&otilde;ik objektiga seotud ja anal&uuml;&uuml;sis osalevad atribuudid kantakse samuti tulemkihti &uuml;le. Taolist meetodit kasutatakse geograafias tihti, saamaks vastust k&uuml;simusele &ldquo;Mis on mille kohal?&rdquo; N&auml;iteks:
+        <ul>
+            <li>Millised maad on 100-aastases &uuml;leujutuse piirkonnas? (Esinemine/kattuvus t&auml;hendab teise kihi peal olemist.)
+                  
+            </li>
+            <li>Millist t&uuml;&uuml;pi teed &uuml;hes v&otilde;is teises maakonnas asuvad?
+            </li>
+            <li>Milline maakasutus on &uuml;he v&otilde;i teise mullat&uuml;&uuml;bi levialas?
+                 
+            </li>
+            <li>Millised kaevikud esinevad mahaj&auml;etud s&otilde;jav&auml;eosades?
+            </li>
+        </ul>
+        
+    </p>
+    <p>Kui 
+        <b>Kasuta hetke kaardi kuvaulatust</b> on valitud, kasutatakse kattuvuses ainult objekte, mis on n&auml;htavad hetke kaardi kuvaulatuses.  Kui ei ole m&auml;rgistatud, kasutatakse kattuvuse leidmiseks k&otilde;iki objekte. Isegi neid, mis asuvad kaardi kuvaulatusest v&auml;ljaspool.
+    </p>
+    </div>
+    <!--Parameter divs for each param-->
+    <div id="OverlayLayer">
+        <div><h2>Vali kattuv kiht</h2></div>
+        <hr/>
+        <div>
+            <p>Kiht, millele sooritakse kattuvust anal&uuml;&uuml;sitava kihiga.  
+            </p>
+            
+        </div>
+    </div>
+    <div id="OverlayType">
+        <div><h2>Vali ülekatte meetod</h2></div>
+        <hr/>
+        <div>
+            <p>Kattuvuse meetod defineerib, kuidas anal&uuml;&uuml;sitav kiht ja &uuml;lekatte kiht kombineeritakse.  
+                <ul>
+                    <li>
+                        <b>&Uuml;hisosa</b>&mdash;Tulemus sisaldab vaid neid objekte v&otilde;i osasid tervikust kihis, mis tekib anal&uuml;&uuml;sil osalevate sisendkihtides olevate objektide geomeetria osa kokkulangemisel.  Kui anal&uuml;&uuml;sikihis on pindobjektid, saab &uuml;lekattekihiks olla pind-, joon-, ja/v&otilde;i punktobjektid.  Kui anal&uuml;&uuml;sikiht sisaldab joonobjekte, saavad &uuml;lekattekihiks olla joon-, ja/v&otilde;i punktobjektid.  Kui anal&uuml;&uuml;sikihiks on punktide kiht, siis peab ka &uuml;lekattekiht olema punkti kiht.
+                    </li>
+                    <li>
+                        <b>&Uuml;hisosa</b>&mdash;Tulemus sisaldab objekte nii anal&uuml;&uuml;sitavast kui ka &uuml;lekattekihist &Uuml;hisosa valik on saadaval ainult siis kui anal&uuml;&uuml;sikiht ja &uuml;lekattekiht sisaldavad m&otilde;lemad alade objekte.
+                    </li>
+                    <li>
+                        <b>Kustuta</b>&mdash;Tulemus sisaldab objekte v&otilde;i nende osasid, mis ei lange &uuml;lekattekihi aladesse.  &Uuml;lekattekiht v&otilde;ib sisaldada alade, joonte v&otilde;i punktide objekte.
+                    </li>
+                </ul>
+                
+            </p>
+            <p>Kui 
+                <b>Kasuta hetke kaardi kuvaulatust</b> on valitud, kasutatakse kattuvuses ainult objekte, mis on n&auml;htavad hetke kaardi kuvaulatuses.  Kui ei ole m&auml;rgistatud, kasutatakse kattuvuse leidmiseks k&otilde;iki objekte. Isegi neid, mis asuvad kaardi kuvaulatusest v&auml;ljaspool.
+            </p>
+            
+        </div>
+    </div>
+    <div id="OutputLayer">
+        <div><h2>Tulemkihi nimi</h2></div>
+        <hr/>
+        <div>
+            <p>
+                See on kihi nimi, mis luuakse kasutaja
+                <b>Minu sisu</b>  alla ning lisatakse kaardile.  See peab olema sama geomeetriat&uuml;&uuml;biga (punktid, jooned, pinnad) nagu &uuml;lekatte kiht.  Vaikimisi nimi baseerub &uuml;lekatte meetodil ja anal&uuml;&uuml;sitava kihi nimel. Kui see kiht juba eksisteerib, saate selle soovi korral &uuml;le kirjutada.
+            </p>
+            <p>Kasutades 
+                <b>Salvesta tulemus</b> kasutaja sisu alla, mille saate valida rippmen&uuml;&uuml;st
+                <b>Minu sisu</b>, kuhu tulemus salvestatakse.
+            </p>
+            
+        </div>
+    </div>
+</div>
+</html>

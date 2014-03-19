@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="Stylesheet" href="../css/analysis.css" />
+    <script type="text/javascript">
+        function init() {
+            if (window.location.hash) {
+                var parentDiv, nodes, i, helpId;
+                helpId = window.location.hash.substring(1);
+                parentDiv = document.getElementById("topics");
+                nodes = parentDiv.children;
+                for(i=0; i < nodes.length; i++) {
+                    if(nodes[i].id !== helpId) {
+                        nodes[i].style.display ="none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="topics">
+    <div id="toolDescription" class="largesize">
+        <h2>Izvilkt datus</h2><p/>
+        <h2></h2>
+        <hr/>
+    <p>Ar o rīku jūs varat izvēlēties un lejupielādēt datus par noteiktu intereu areālu. Slāņi, kurus jūs izvēlējāties tiks pievienoti zip vai csv failam.
+    </p>
+    </div>
+    <!--Parameter divs for each param-->
+    <div id="InputLayers">
+        <div><h2>Slāņi, ko izvilkt</h2></div>
+        <hr/>
+        <div>
+            <p>ie ir slāņi jūsu satura tabulā, no kuriem jūs varat izvilkt elementus.  Atzīmētie slāņi tiek izvilkti un iekļauti rezultējoā zip vai csv failā.
+            </p>
+            <p>Lai slānis parādītos izvelkamo slāņu sarakstā, jums jābūt datu īpaniekam, vai arī datu īpaniekam jāaktivizē datu eksportēana.    Lai aktivizētu jūsu īpaumā esoo datu eksportēanu:
+                <ul>
+                    <li>Atveriet datu vienības aprakstu.
+                    </li>
+                    <li>Klikķiniet REDIĢĒT, lai rediģētu vienības aprakstu.
+                    </li>
+                    <li>Ritien uz leju līdz 
+                        <b>Īpaības</b> nodaļai.
+                    </li>
+                    <li>Iezīmējiet 
+                        <b>Datu eksports</b>.
+                    </li>
+                </ul>
+                
+            </p>
+            
+        </div>
+    </div>
+    <div id="AreaOfInterest">
+        <div><h2>Studiju areāls</h2></div>
+        <hr/>
+        <div>
+            <p>Laukums, kas definē, kuri elementi tiks iekļauti izvades zip vai csv failā. Jūs varat izvēlēties no sekojoā:
+                <ul>
+                    <li>Jūsu kartes pareiz redzamais pārklājums (
+                        <b>Tāds pats kā displejs</b>).
+                    </li>
+                    <li>Viens no slāņiem jūsus satura rādītājā.
+                    </li>
+                    <li>Zīmējiet areālu, lai definētu pētījumu areālu.
+                    </li>
+                </ul>
+                 Pilnīgi visi elementi kartes pārklājumā tiks izvilkti.  Elementiem, kas krusto vai ķerso kartes pārklājuma robe˛u, bet neatrodas parklājumā pilnībā, jums ir divas izvēlnes:
+                <ul>
+                    <li>
+                        <b>Izvēlēties elementus</b>&mdash;tiks izvilkti visi elementi, kas krusto pētījumu areāla robe˛u.
+                    </li>
+                    <li>
+                        <b>Izgriezt elementus</b>&mdash;tiks izvilktas tikai tās elementu daļas, kas atrodas pētījumu areāla.
+                    </li>
+                </ul>
+                
+            </p>
+        </div>
+    </div>
+    <div id="OutputFormat">
+        <div><h2>Izvades datu formāts</h2></div>
+        <hr/>
+        <div>
+            <p>Datu, kur tiks izvilkti, formāts. Eksportējot līnijas un areāla elementus uz csv failiem, tiks iegūti tikai atribūti, kas nav telpiski.  Eksportējot punktu elementus, tiks iegūti gan telpiskie atribūti, gan atribūti, kas nav telpiski.  
+            </p>
+        </div>
+    </div>
+    <div id="OutputName">
+        <div><h2>Izvades faila nosaukums</h2></div>
+        <hr/>
+        <div>
+            <p>
+                is ir vienības nosaukums, kas tiks pievienots jūsu
+                <b>Mans Saturs</b>.  chosenVienības nosaukums ir balstīts uz izvēlētā
+                <b>Izvades datu formāta</b>.     Ja vienība jau eksistēs, jums tiks jautāts apstiprinājums tam, vai vēlaties pārrakstīt to.
+            </p>
+            <p>Lietojot 
+                <b>Saglabāt rezultātu</b> izvelkamajā lodziņā jūs varat norādīt nosaukumu mapei
+                <b>Mans Saturs</b>, kur tiks saglabāts rezultāts.
+            </p>
+        </div>
+    </div>
+</div>
+</html>

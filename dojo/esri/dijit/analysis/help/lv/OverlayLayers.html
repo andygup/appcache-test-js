@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="Stylesheet" href="../css/analysis.css" />
+    <script type="text/javascript">
+        function init() {
+            if (window.location.hash) {
+                var parentDiv, nodes, i, helpId;
+                helpId = window.location.hash.substring(1);
+                parentDiv = document.getElementById("topics");
+                nodes = parentDiv.children;
+                for(i=0; i < nodes.length; i++) {
+                    if(nodes[i].id !== helpId) {
+                        nodes[i].style.display ="none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="topics">
+    <div id="toolDescription" class="largesize">
+        <h2>Pārklājuma slāņi</h2><p/>
+        <h2></h2>
+        <hr/>
+    <p>Pārklā&scaron;ana apvieno divus vai vairāk slāņus vienā slānī.  Jūs varat iedomāties pārklā&scaron;anu kā kar&scaron;u kaudzes izlīdzinā&scaron;anu, izveidojot vienotu karti, kas satur visu kaudzes informāciju. Pārklājums ir daudz vairāk nekā darbu savieno&scaron;ana, visi pārklājuma atribūti tika pārnesti uz gala produktu. Pārklājums tiek izmantots, lai atbildētu uz vienu no ģeogrāfijas pamatjautājumiem, &quot;Kas ir virsū kam?&quot; Piemēram: 
+        <ul>
+            <li>Kuri zemes gabali atrodas 100 gadu palienē? (Ietvaros ir tikai vēl viens veids, kā pateikt, kas ir virsū kam.)
+                  
+            </li>
+            <li>Kādi ceļi atrodas kuros apgabalos?
+            </li>
+            <li>Kādi zemes lietojumi ir uz kura wells  augsnes tipa?
+                 
+            </li>
+            <li>Kādas akas atrodas pamestajās militārajās bāzēs?
+            </li>
+        </ul>
+        
+    </p>
+    <p>Ja 
+        <b>Lietot pa&scaron;reizējo kartes pārklājumu</b> ir atzīmēts, tiks pārklāti analīzes un pārklājuma slāņu elementi tikai pa&scaron;reizējā kartes pārklājumā.  Ja nav atzīmēts, visi elementi analīzes un pārklājuma slānī tiks pārklāti, arī pa&scaron;reizējā kartes pārklājuma ārpusē.
+    </p>
+    </div>
+    <!--Parameter divs for each param-->
+    <div id="OverlayLayer">
+        <div><h2>Izvēlēties pārklājuma slāni</h2></div>
+        <hr/>
+        <div>
+            <p>Slānis, kas pārklājas ar analīzes slāni.  
+            </p>
+            
+        </div>
+    </div>
+    <div id="OverlayType">
+        <div><h2>Izvēlēties pārklājuma metodi</h2></div>
+        <hr/>
+        <div>
+            <p>Pārklājuma metode nosaka, kā analīzes slānis un pārklājuma slānis tiek pārklāti.  
+                <ul>
+                    <li>
+                        <b>&Scaron;ķērsot</b>&mdash;Rezultātā tiks iekļauti tikai tie elementi vai to daļas, kas pārklājas ar elementiem analīzes slānī.  Ja analīze slānis ir laukumu elementi, pārklājuma slānis var būt laukumu, punktu, vai līniju elementi.  Ja analīze slānis ir līniju elementi, pārklājuma slānis var būt tikai līniju vai punktu elementi.  Ja analīzes slānis ir punktu elementi, tad pārklājuma slānim arī jābūt punktu elementiem.
+                    </li>
+                    <li>
+                        <b>Apvienot</b>&mdash;Rezultāts saturēs elementus no abiem analīzes un pārklājuma slāņiem. Apvienot opcija ir pieejama tikai, ja analīzes un pārklājuma slāņi satur laukuma elementus.
+                    </li>
+                    <li>
+                        <b>Dzēst</b>&mdash;Rezultāts, pārklājuma slānī, saturēs elementus vai elementu daļas, kas nepārklājas ar areāliem analīzes slānī.  Pārklājuma slānis var aturēt laukuma, līnijas, vai punkta elementus.
+                    </li>
+                </ul>
+                
+            </p>
+            <p>Ja 
+                <b>Lietot pa&scaron;reizējo kartes pārklājumu</b> ir atzīmēts, tiks pārklāti analīzes un pārklājuma slāņu elementi tikai pa&scaron;reizējā kartes pārklājumā.  Ja nav atzīmēts, visi elementi analīzes un pārklājuma slānī tiks pārklāti, arī pa&scaron;reizējā kartes pārklājuma ārpusē.
+            </p>
+            
+        </div>
+    </div>
+    <div id="OutputLayer">
+        <div><h2>Rezultāta slāņa nosaukums</h2></div>
+        <hr/>
+        <div>
+            <p>
+                &Scaron;is ir slāņa nosaukums, kas tiks izveidots jūsu
+                <b>Mans Saturs</b> un pievienots kartei.  Tam būs tads pat elementu tips (laukums, līnija vai punkts) kā pārklājuma slānim.  Noklusējuma nosaukums ir balstīts uz pārklājuma metodi un ievades slāņa nosaukumu. Ja slānis jau pastāv, jums tiks lūgts apstiprināt, vai vēlaties to pārrakstīt.
+            </p>
+            <p>Lietojot 
+                <b>Saglabāt rezultātu</b> izvelkamajā lodziņā jūs varat norādīt nosaukumu mapei
+                <b>Mans Saturs</b> kur tiks saglabāts rezultāts.
+            </p>
+            
+        </div>
+    </div>
+</div>
+</html>

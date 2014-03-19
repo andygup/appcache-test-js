@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7, IE=8, IE=9, IE=10">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>PROTOTYPE</title>
+
+    <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dojo/dijit/themes/claro/claro.css"/>
+	<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dgrid/css/dgrid.css">
+    <link rel="stylesheet" href="http://jsdev.arcgis.com/3.7/js/esri/css/esri.css"/>
+	<link rel="stylesheet" href="../css/master.css"/>
+	<link rel="stylesheet" href="../../GeocodeMatch/css/master.css"/>
+	
+	<style>
+			html, body{
+				width:100%;
+				height:100%;
+				margin:0;
+				padding:0;
+			}
+	</style>
+    <script>
+        var dojoConfig = {
+			isDebug: true,
+            locale:"en",
+            packages:[{
+				name: "esri", 
+				location: "../../esri" 
+			},{
+			  name: "dgrid", 
+			  location: "../../dgrid" 
+			},{
+			  name: "xstyle", 
+			  location: "../../xstyle" 
+			},{
+			  name: "put-selector", 
+			  location: "../../put-selector" 
+			}]
+		};
+    </script>
+	
+    <!--<script src="http://jsdev.arcgis.com/3.7"></script>-->
+    <script src="../../../../dojo/dojo/dojo.js"></script>
+
+    <script>
+		var addressString = "19 Hastings Court, North Dartmouth Massachusetts"; 
+		var map;
+		var gm;
+		var gr;
+        require([		
+			"esri/map",
+			"esri/dijit/GeocodeMatch",
+			"esri/dijit/GeocodeReview",
+			"dijit/form/Button",
+			"dojo/dom",
+			"dojo/ready"
+		], function (Map, GeocodeMatch, GeocodeReview, Button, dom, ready) {
+
+			ready(function(){
+				map = new Map("map", {
+					autoResize:true,
+					basemap: "topo",
+					center: [-77.036, 38.891],
+					zoom: 14
+				});
+				// Initialize the Widget
+				gr = new GeocodeReview({
+					map:map,
+					itemid: "f0228b1bcbcb43909189ac7365c41abe"
+				}, 'reviewWidget');
+				
+				gr.startup();
+				
+				// Initialize the Widget
+				gm = new GeocodeMatch({
+					map: map,
+				}, 'matchWidget');
+				
+				// Start the widget
+				gm.startup();
+				
+				
+				gr.on("esri-row-select", function(obj){
+					console.log(obj);
+					gm.geocodeAddress(obj.address, obj.location).then(function(geocodeResults){ 
+						console.log("geocodeResults", geocodeResults);						
+					});
+				});
+				gm.on("match", function(matchObj){
+					console.log("matchObj", matchObj);
+					gr.matchFeature(matchObj);
+				});
+				
+				gr.on("esri-datachange", function(obj){
+					console.log("esri-datachange", obj);
+					gm.geocodeAddress(obj.newAddress).then(function(geocodeResults){ 
+						console.log("geocodeResults2", geocodeResults);						
+					});
+				});
+				
+			
+			});
+        });
+    </script>
+</head>
+<body class="claro esri">
+<div style="height:30%;">
+	<div id="reviewWidget"></div>
+</div>
+<div id="matchWidget" style="height:70%; width:50%; float:left;"></div>
+<div id="map" style="height:70%; width:50%; float:left;"></div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="Stylesheet" href="../css/analysis.css" />
+    <script type="text/javascript">
+        function init() {
+            if (window.location.hash) {
+                var parentDiv, nodes, i, helpId;
+                helpId = window.location.hash.substring(1);
+                parentDiv = document.getElementById("topics");
+                nodes = parentDiv.children;
+                for(i=0; i < nodes.length; i++) {
+                    if(nodes[i].id !== helpId) {
+                        nodes[i].style.display ="none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="topics">
+    <div id="toolDescription" class="largesize">
+        <h2>Extragere date</h2><p/>
+        <h2></h2>
+        <hr/>
+    <p>Cu acest instrument puteți selecta și descărca date pentru o anumită suprafață de interes. Straturile tematice pe care le selectați vor fi adăugate &icirc;ntr-un fișier zip sau csv.
+    </p>
+    </div>
+    <!--Parameter divs for each param-->
+    <div id="InputLayers">
+        <div><h2>Straturi tematice de extras</h2></div>
+        <hr/>
+        <div>
+            <p>Acestea sunt straturile tematice din tabelul dvs. de resurse din care puteți extrage obiecte spațiale.  Straturile tematice bifate sunt extrase și incluse &icirc;n fișierul zip sau csv rezultat.
+            </p>
+            <p>Pentru ca stratul tematic să apară &icirc;n lista de straturi tematice de extras, trebuie fie să dețineți datele, fie proprietarul datelor să activeze exportul datelor.    Pentru a activa exportul datelor pentru datele pe care le dețineți:
+                <ul>
+                    <li>Deschideți descrierea elementului aferentă datelor.
+                    </li>
+                    <li>Faceți clic pe EDITARE pentru a edita descrierea elementului.
+                    </li>
+                    <li>Derulaţi &icirc;n jos, p&acirc;nă la secţiunea 
+                        <b>Proprietăţi</b>.
+                    </li>
+                    <li>Bifaţi 
+                        <b>Export date</b>.
+                    </li>
+                </ul>
+                
+            </p>
+            
+        </div>
+    </div>
+    <div id="AreaOfInterest">
+        <div><h2>Zonă studiată</h2></div>
+        <hr/>
+        <div>
+            <p>Suprafața care definește ce straturi tematice vor fi incluse &icirc;n fișierul zip sau csv rezultat. Puteți alege din următoarele opțiuni:
+                <ul>
+                    <li>Extinderea vizibilă &icirc;n prezent a hărţii (
+                        <b>Identică cu ceea ce este afişat</b>).
+                    </li>
+                    <li>Unul din straturile tematice din tabelul de resurse.
+                    </li>
+                    <li>Trasați o suprafață pentru a defini suprafața de studiu.
+                    </li>
+                </ul>
+                 Vor fi extrase toate obiectele spațiale care sunt cuprinse complet &icirc;n extinderea hărții.  Pentru obiectele spațiale care traversează sau intersectează limita extinderii hărții și care nu se află integral &icirc;n interiorul extinderii, aveți două opțiuni:
+                <ul>
+                    <li>
+                        <b>Selectare obiecte spaţiale</b>&mdash;Obiectele spaţiale care traversează limita suprafeţei de studiu vor fi extrase &icirc;n &icirc;ntregime.
+                    </li>
+                    <li>
+                        <b>Decupare obiecte spaţiale</b>&mdash;Vor fi extrase numai acele porţiuni din obiectele spaţiale care se află &icirc;n interiorul suprafeţei de studiu.
+                    </li>
+                </ul>
+                
+            </p>
+        </div>
+    </div>
+    <div id="OutputFormat">
+        <div><h2>Format date de ieșire</h2></div>
+        <hr/>
+        <div>
+            <p>Formatul datelor care vor fi extrase. C&acirc;nd se exportă obiecte spațiale liniare sau de suprafață &icirc;n fișiere csv, se extrag doar atributele nespațiale.  C&acirc;nd se exportă obiecte spațiale punctuale, sunt extrase at&acirc;t atributele spațiale, c&acirc;t și cele nespațiale.  
+            </p>
+        </div>
+    </div>
+    <div id="OutputName">
+        <div><h2>Nume fișier de ieșire</h2></div>
+        <hr/>
+        <div>
+            <p>
+                Acesta este numele elementului care va fi adăugat &icirc;n
+                <b>Resursele mele</b>.  Numele elementului se bazează pe
+                <b>Formatul datelor de ieşire</b> ales.     Dacă elementul există deja, vi se va solicita să confirmați dacă doriți să &icirc;l suprascrieți.
+            </p>
+            <p>Utiliz&acirc;nd caseta derulantă 
+                <b>Salvare rezultat &icirc;n</b>, puteţi specifica numele unui director din
+                <b>Resursele mele</b> &icirc;n care va fi salvat rezultatul.
+            </p>
+        </div>
+    </div>
+</div>
+</html>
