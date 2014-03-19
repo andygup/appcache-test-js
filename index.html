@@ -66,7 +66,7 @@
     </script>
     <script>
         var map;
-        var imgOfflineIndicator;
+        var imgOfflineIndicator,btnGetTiles;
 
         require(["esri/map","custom/tiles","dojo/domReady!"], function(Map,Tiles) {
             map = new Map("map", {
@@ -80,6 +80,10 @@
 
             function init(){
                 imgOfflineIndicator = document.getElementById("img-offline-indicator");
+                btnGetTiles = document.getElementById("btn-get-tiles");
+                btnGetTiles.onclick = function(evt){
+                    console.log("HAH")
+                }
                 Offline.check();
                 Offline.on('up down', updateState );
             }
