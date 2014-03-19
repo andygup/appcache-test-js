@@ -77,12 +77,16 @@
                 sliderStyle: "small"
             });
 
-            init();
+            map.on("load",function(evt){
+                init();
+                console.log("level: " + map.getLevel() + ", maxZoom: " + map.getMaxZoom());
+            })
 
             function init(){
                 offlineTilesEnabler = new OfflineTilesEnabler(map);
                 imgOfflineIndicator = document.getElementById("img-offline-indicator");
                 btnGetTiles = document.getElementById("btn-get-tiles");
+
                 btnGetTiles.onclick = function(evt){
                     if(btnGetTiles.innerHTML == "Delete Tiles"){
                         offlineTilesEnabler.deleteAllTiles(function(success,err){
@@ -96,19 +100,33 @@
                         }.bind(this))
                     }
                     else{
-                        offlineTilesEnabler.saveTilesLocally();
+                        offlineTilesEnabler.saveTilesLocally(evt);
                     }
                 }
+
                 Offline.check();
                 Offline.on('up down', updateState );
+
+                imgOfflineIndicator.onclick = function(evt){
+                    if(imgOfflineIndicator.src == "images/blue-pin.png"){
+                        imgOfflineIndicator.src = "images/red-pin.png";
+                        offlineTilesEnabler.goOffline();
+                    }
+                    else{
+                        imgOfflineIndicator.src = "images/blue-pin.png";
+                        offlineTilesEnabler.goOnline();
+                    }
+                }
             }
 
             function updateState(){
                 if(Offline.state === 'up'){
                     imgOfflineIndicator.src = "images/blue-pin.png";
+                    offlineTilesEnabler.goOnline();
                 }
                 else{
                     imgOfflineIndicator.src = "images/red-pin.png";
+                    offlineTilesEnabler.goOffline();
                 }
             }
         });

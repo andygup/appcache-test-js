@@ -21,7 +21,10 @@ define([
                 this._btnGetTiles = document.getElementById("btn-get-tiles");
             },
 
-            saveTilesLocally: function(){
+            saveTilesLocally: function(evt){
+
+                var self = evt.data;
+
                 if( this.globalState.downloadState == 'downloading')
                 {
                     console.log("cancel!");
@@ -30,14 +33,14 @@ define([
                 }
                 else
                 {
-                    var minLevel = 0;
-                    var maxLevel = 16;
+                    var minLevel = this._map.getZoom() - 1;
+                    var maxLevel = this._map.getMaxZoom();
                     var extent = this._map.extent;
-                    var buffer = 1500; /* approx meters (webmercator units) */
+                    var buffer = 500; /* approx meters (webmercator units) */
                     extent.xmin -= buffer; extent.ymin -= buffer;
                     extent.xmax += buffer; extent.ymax += buffer;
                     this._wantToCancel = false;
-                    this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(self,self._reportProgress));
+                    this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(this,this._reportProgress));
                     this.globalState.downloadState = 'downloading';
                 }
             },
@@ -48,11 +51,32 @@ define([
                 })
             },
 
+            goOnline: function()
+            {
+//                // this causes pending edits to be sent to the server
+//                // and subsequent edits to go directly to the server
+//                // only applies to map notes
+//                _offlineFeaturesManager.goOnline(function()
+//                {
+//                    // TODO: give feedback to the user, all his edits have been stored
+//                });
+
+                this._baseMapLayer.goOnline();
+            },
+
+            goOffline: function()
+            {
+//                // this causes edits to map notes to be kept in local storage
+//                // until goOnline() is called again
+//                _offlineFeaturesManager.goOffline();
+                this._baseMapLayer.goOffline();
+            },
+
             _reportProgress: function(progress)
             {
                 console.log("downloading tiles...");
                 var percent = Math.floor(progress.countNow / progress.countMax * 100);
-                this._btnGetTiles.value = 'Saving to phone ' + percent + "% - Tap to Cancel";
+                this._btnGetTiles.innerHTML = 'Saving to phone ' + percent + "% - Tap to Cancel";
 
                 if( progress.finishedDownloading )
                 {
