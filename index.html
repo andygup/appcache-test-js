@@ -46,6 +46,18 @@
     <script src="libs/offline/offline.min.js"></script>
     <script src="libs/IndexedDBShim/dist/IndexedDBShim.min.js"></script>
     <script>
+        Offline.options = {
+            checks: {
+                image: {
+                    url: function() {
+                        return 'http://esri.github.io/offline-editor-js/tiny-image.png?_=' + (Math.floor(Math.random() * 1000000000));
+                    }
+                },
+                active: 'image'
+            }
+        }
+    </script>
+    <script>
         var map;
 
         require(["esri/map", "dojo/domReady!"], function(Map) {
@@ -55,6 +67,13 @@
                 zoom: 13,
                 sliderStyle: "small"
             });
+
+            Offline.check();
+            Offline.on('up down', updateState );
+
+            function updateState(){
+
+            }
         });
     </script>
 </head>
