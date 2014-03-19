@@ -23,9 +23,15 @@
             background: #000000;
             color: #ffffff;
             width: 100%;
-            height: 30px;
+            height: 40px;
         }
         #btn-get-tiles{
+            position: relative; float: right;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        #img-offline-indicator{
+            padding-left: 8px;
             position: relative; float: left;
         }
     </style>
@@ -80,6 +86,7 @@
 
 <body>
 <div id="button-div1">
+    <img id="img-offline-indicator" src="images/blue-pin.png"/>
     <button id="btn-get-tiles">Get Tiles</button>
 </div>
 <div id="map"></div>
