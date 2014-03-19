@@ -44,7 +44,8 @@
                 /*
                  utils: locationPath  + "/libs/offline-editor-js/utils"
                  */
-                vendor: locationPath + "/libs/offline-editor-js"
+                vendor: locationPath + "/libs/offline-editor-js",
+                custom: locationPath + "/modules"
             }
         }
     </script>
@@ -67,7 +68,7 @@
         var map;
         var imgOfflineIndicator;
 
-        require(["esri/map", "dojo/domReady!"], function(Map) {
+        require(["esri/map","custom/tiles","dojo/domReady!"], function(Map,Tiles) {
             map = new Map("map", {
                 basemap: "topo",
                 center: [-122.45,37.75], // long, lat

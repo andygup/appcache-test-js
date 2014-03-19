@@ -2,7 +2,7 @@
 
 define([
     "dojo/_base/declare",
-    "libs/offline-editor-js/tiles/offlineTilesEnabler"],
+    "tiles/offlineTilesEnabler"],
     function(declare,OfflineTilesEnabler){
         return declare(null, {
 
