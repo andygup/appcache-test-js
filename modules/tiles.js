@@ -10,6 +10,8 @@ define([
             _map: null,
             _btnGetTiles:null,
             _wantToCancel: false,
+            _offlineTilesEnabler:null,
+            _baseMapLayer:null,
             globalState:{},
 
             constructor: function(map)
@@ -20,7 +22,7 @@ define([
             },
 
             saveTilesLocally: function(){
-                if( globalState.downloadState == 'downloading')
+                if( this.globalState.downloadState == 'downloading')
                 {
                     console.log("cancel!");
                     this._wantToCancel = true;
@@ -30,18 +32,18 @@ define([
                 {
                     var minLevel = 0;
                     var maxLevel = 16;
-                    var extent = this._map.geometry.getExtent();
+                    var extent = this._map.extent;
                     var buffer = 1500; /* approx meters (webmercator units) */
                     extent.xmin -= buffer; extent.ymin -= buffer;
                     extent.xmax += buffer; extent.ymax += buffer;
                     this._wantToCancel = false;
-                    this._map.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(self,self._reportProgress));
-                    globalState.downloadState = 'downloading';
+                    this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(self,self._reportProgress));
+                    this.globalState.downloadState = 'downloading';
                 }
             },
 
             deleteTileCache: function(callback){
-                this._map.deleteAllTiles(function(success,err){
+                this._baseMapLayer.deleteAllTiles(function(success,err){
                     callback(success,err);
                 })
             },
@@ -56,12 +58,12 @@ define([
                 {
                     if( progress.cancelRequested )
                     {
-                        globalState.downloadState = 'cancelled';
+                        this.globalState.downloadState = 'cancelled';
                         this._btnGetTiles.innerHTML = 'Get Tiles';
                     }
                     else
                     {
-                        globalState.downloadState = 'downloaded';
+                        this.globalState.downloadState = 'downloaded';
                         this._btnGetTiles.innerHTML = 'Delete Tiles';
                     }
                 }
@@ -69,19 +71,22 @@ define([
             },
 
             _initOfflineTiles: function(map){
-                OfflineTilesEnabler.extend(map,function(success)
+
+                this._offlineTilesEnabler = new OfflineTilesEnabler();
+                this._baseMapLayer = this._offlineTilesEnabler.getBasemapLayer(map);
+                this._offlineTilesEnabler.extend(this._baseMapLayer,function(success)
                 {
                     if( success )
                     {
                         //using null sets this for CORS
-                        map.offline.proxyPath = null; //"libs/offline-editor-js/resource-proxy/proxy.php";
+                        this._baseMapLayer.offline.proxyPath = null; //"libs/offline-editor-js/resource-proxy/proxy.php";
                         console.log("Offline tile lib is enabled");
                     }
                     else
                     {
                         alert("error initializing storage - browser doesn't support indexeddb")
                     }
-                });
+                }.bind(this));
             }
 
         })
