@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!--<html manifest="offline2.appcache">-->
-<html>
+<html manifest="offline2.appcache">
+<!--<html>-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
@@ -83,8 +83,9 @@
             })
 
             function init(){
-                offlineTilesEnabler = new OfflineTilesEnabler(map);
+                offlineTilesEnabler = new OfflineTilesEnabler(map,13,15);
                 imgOfflineIndicator = document.getElementById("img-offline-indicator");
+                imgOfflineIndicator.offlineColor = "blue";
                 btnGetTiles = document.getElementById("btn-get-tiles");
 
                 btnGetTiles.onclick = function(evt){
@@ -100,6 +101,7 @@
                         }.bind(this))
                     }
                     else{
+                        updateOfflineUsage();
                         offlineTilesEnabler.saveTilesLocally(evt);
                     }
                 }
@@ -108,13 +110,15 @@
                 Offline.on('up down', updateState );
 
                 imgOfflineIndicator.onclick = function(evt){
-                    if(imgOfflineIndicator.src == "images/blue-pin.png"){
+                    if(imgOfflineIndicator.offlineColor == "blue"){
                         imgOfflineIndicator.src = "images/red-pin.png";
                         offlineTilesEnabler.goOffline();
+                        imgOfflineIndicator.offlineColor = "red";
                     }
                     else{
                         imgOfflineIndicator.src = "images/blue-pin.png";
                         offlineTilesEnabler.goOnline();
+                        imgOfflineIndicator.offlineColor = "blue";
                     }
                 }
             }
@@ -128,6 +132,12 @@
                     imgOfflineIndicator.src = "images/red-pin.png";
                     offlineTilesEnabler.goOffline();
                 }
+            }
+
+
+            function updateOfflineUsage()
+            {
+//                 offlineTilesEnabler.getEstimateTileCount();
             }
         });
     </script>

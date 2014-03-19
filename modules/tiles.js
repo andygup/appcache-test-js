@@ -8,15 +8,20 @@ define([
         return declare(null, {
 
             _map: null,
+            _minZoom: 13,
+            _maxZoom: 15,
             _btnGetTiles:null,
             _wantToCancel: false,
             _offlineTilesEnabler:null,
             _baseMapLayer:null,
             globalState:{},
 
-            constructor: function(map)
+            constructor: function(map,minZoom,maxZoom)
             {
                 this._map = map;
+                if(typeof minZoom != "undefined" || minZoom == "null")this._minZoom = minZoom;
+                if(typeof maxZoom != "undefined" || minZoom == "null")this._maxZoom = maxZoom;
+                this._maxZoom = maxZoom;
                 this._initOfflineTiles(map);
                 this._btnGetTiles = document.getElementById("btn-get-tiles");
             },
@@ -33,8 +38,8 @@ define([
                 }
                 else
                 {
-                    var minLevel = this._map.getZoom() - 1;
-                    var maxLevel = this._map.getMaxZoom();
+                    var minLevel = this._minZoom;
+                    var maxLevel = this._maxZoom;
                     var extent = this._map.extent;
                     var buffer = 500; /* approx meters (webmercator units) */
                     extent.xmin -= buffer; extent.ymin -= buffer;
@@ -70,6 +75,25 @@ define([
 //                // until goOnline() is called again
 //                _offlineFeaturesManager.goOffline();
                 this._baseMapLayer.goOffline();
+            },
+
+            getEstimateTileCount: function()
+            {
+                this._baseMapLayer.estimateTileSize(function(tileSize){
+
+                    var totalEstimation;
+
+                    for(var level=this._minZoom; level<=this._maxZoom; level++)
+                    {
+                        var levelEstimation = this._baseMapLayer.getLevelEstimation(this._map.extent,level,tileSize);
+
+                        totalEstimation.tileCount += levelEstimation.tileCount;
+                        totalEstimation.sizeBytes += levelEstimation.sizeBytes;
+                    }
+
+                    console.log("Size estimate: " + totalEstimation.sizeBytes + ", tile count: " + totalEstimation.tileCount)
+                    return totalEstimation;
+                })
             },
 
             _reportProgress: function(progress)
