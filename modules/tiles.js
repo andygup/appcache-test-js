@@ -2,8 +2,9 @@
 
 define([
     "dojo/_base/declare",
-    "tiles/offlineTilesEnabler"],
-    function(declare,OfflineTilesEnabler){
+    "tiles/offlineTilesEnabler",
+    "dojo/_base/lang"],
+    function(declare,OfflineTilesEnabler,lang){
         return declare(null, {
 
             _map: null,
@@ -18,11 +19,12 @@ define([
                 this._btnGetTiles = document.getElementById("btn-get-tiles");
             },
 
-            saveTilesLocally: function(evt){
+            saveTilesLocally: function(){
                 if( globalState.downloadState == 'downloading')
                 {
                     console.log("cancel!");
-                    _wantToCancel = true;
+                    this._wantToCancel = true;
+                    this._btnGetTiles.innerHTML = "cancelling..";
                 }
                 else
                 {
@@ -32,10 +34,16 @@ define([
                     var buffer = 1500; /* approx meters (webmercator units) */
                     extent.xmin -= buffer; extent.ymin -= buffer;
                     extent.xmax += buffer; extent.ymax += buffer;
-                    _wantToCancel = false;
+                    this._wantToCancel = false;
                     this._map.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(self,self._reportProgress));
                     globalState.downloadState = 'downloading';
                 }
+            },
+
+            deleteTileCache: function(callback){
+                this._map.deleteAllTiles(function(success,err){
+                    callback(success,err);
+                })
             },
 
             _reportProgress: function(progress)
@@ -49,15 +57,15 @@ define([
                     if( progress.cancelRequested )
                     {
                         globalState.downloadState = 'cancelled';
-                        this._btnGetTiles.value = 'Get Tiles';
+                        this._btnGetTiles.innerHTML = 'Get Tiles';
                     }
                     else
                     {
                         globalState.downloadState = 'downloaded';
-                        this._btnGetTiles.value = 'Delete Tiles';
+                        this._btnGetTiles.innerHTML = 'Delete Tiles';
                     }
                 }
-                return _wantToCancel;
+                return this._wantToCancel; //determines if a cancel request has been issued
             },
 
             _initOfflineTiles: function(map){
@@ -65,7 +73,7 @@ define([
                 {
                     if( success )
                     {
-                        // Please update this path with the path for the proxy - required for ArcGIS Server access
+                        //using null sets this for CORS
                         map.offline.proxyPath = null; //"libs/offline-editor-js/resource-proxy/proxy.php";
                         console.log("Offline tile lib is enabled");
                     }
@@ -77,5 +85,4 @@ define([
             }
 
         })
-
 })

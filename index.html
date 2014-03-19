@@ -67,8 +67,9 @@
     <script>
         var map;
         var imgOfflineIndicator,btnGetTiles;
+        var offlineTilesEnabler;
 
-        require(["esri/map","custom/tiles","dojo/domReady!"], function(Map,Tiles) {
+        require(["esri/map","custom/tiles","dojo/domReady!"], function(Map,OfflineTilesEnabler) {
             map = new Map("map", {
                 basemap: "topo",
                 center: [-122.45,37.75], // long, lat
@@ -79,10 +80,24 @@
             init();
 
             function init(){
+                offlineTilesEnabler = new OfflineTilesEnabler(map);
                 imgOfflineIndicator = document.getElementById("img-offline-indicator");
                 btnGetTiles = document.getElementById("btn-get-tiles");
                 btnGetTiles.onclick = function(evt){
-                    console.log("HAH")
+                    if(btnGetTiles.innerHTML == "Delete Tiles"){
+                        offlineTilesEnabler.deleteAllTiles(function(success,err){
+                            if(success == false){
+                                alert("There was a problem deleting the tile cache");
+                                btnGetTiles.innerHTML = "Get tiles";
+                            }
+                            else{
+                                console.log("success deleting tile cache");
+                            }
+                        }.bind(this))
+                    }
+                    else{
+                        offlineTilesEnabler.saveTilesLocally();
+                    }
                 }
                 Offline.check();
                 Offline.on('up down', updateState );
