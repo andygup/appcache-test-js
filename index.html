@@ -39,13 +39,9 @@
         var locationPath = location.pathname.replace(/\/[^/]+$/, "");
         var dojoConfig = {
             paths: {
-                edit: locationPath  + "/libs/offline-editor-js/edit",
-                tiles: locationPath  + "/libs/offline-editor-js/tiles",
-                /*
-                 utils: locationPath  + "/libs/offline-editor-js/utils"
-                 */
-                vendor: locationPath + "/libs/offline-editor-js",
-                custom: locationPath + "/modules"
+                edit: locationPath  + "/../libs/offline-editor-js/edit",
+                tiles: locationPath  + "/../libs/offline-editor-js/tiles",
+                custom: locationPath + "/../modules"
             }
         }
     </script>

@@ -12,10 +12,16 @@ libs/dojo/dojox/gfx/shape.js
 libs/dojo/dojo/nls/dojo_en-us.js
 libs/dojo/dojox/gfx/shape.js
 libs/dojo/dojox/gfx/path.js
+libs/dojo/dojo/request.js
 libs/dojo/dojo/_base/NodeList.js
 libs/dojo/dojo/selector/acme.js
 libs/dojo/dojo/_base/loader.js
+libs/dojo/dojo/request/default.js
+libs/dojo/esri/geometry.js
+libs/dojo/esri/geometry/geodesicUtils.js
+libs/dojo/esri/geometry/normalizeUtils.js
 libs/dojo/esri/dijit/Attribution.js
+libs/dojo/esri/units.js
 libs/dojo/dojo/fx/Toggler.js
 http://js.arcgis.com/3.8/js/esri/images/map/logo-sm.png
 http://js.arcgis.com/3.8/js/esri/images/map/logo-med.png
@@ -27,6 +33,13 @@ http://js.arcgis.com/3.8/js/esri/dijit/images/popup.png
 # required custom libs
 libs/offline/offline.min.js
 libs/IndexedDBShim/dist/IndexedDBShim.min.js
+libs/offline-editor-js/tiles/offlineTilesEnabler.js
+libs/offline-editor-js/tiles/base64utils.js
+libs/offline-editor-js/tiles/dbStore.js
+libs/offline-editor-js/tiles/tilingScheme.js
+libs/offline-editor-js/tiles/FileSaver.js
+libs/offline-editor-js/tiles/notile.png
+modules/tiles.js
 # images
 images/blue-pin.png
 images/red-pin.png
