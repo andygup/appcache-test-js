@@ -63,79 +63,96 @@
     <script>
         var map;
         var imgOfflineIndicator,btnGetTiles;
-        var offlineTilesEnabler;
+        var offlineTilesEnabler,appCacheManager;
 
-        require(["esri/map","custom/tiles","dojo/domReady!"], function(Map,OfflineTilesEnabler) {
-            map = new Map("map", {
-                basemap: "topo",
-                center: [-122.45,37.75], // long, lat
-                zoom: 13,
-                sliderStyle: "small"
-            });
+        require(["esri/map","custom/tiles","custom/appCacheManager","dojo/on","dojo/domReady!"],
+            function(Map,OfflineTilesEnabler,AppCacheManager,on) {
+                map = new Map("map", {
+                    basemap: "topo",
+                    center: [-122.45,37.75], // long, lat
+                    zoom: 13,
+                    sliderStyle: "small"
+                });
 
-            map.on("load",function(evt){
-                init();
-                console.log("level: " + map.getLevel() + ", maxZoom: " + map.getMaxZoom());
-            })
+                map.on("load",function(evt){
+                    init();
+                    console.log("level: " + map.getLevel() + ", maxZoom: " + map.getMaxZoom());
+                })
 
-            function init(){
-                offlineTilesEnabler = new OfflineTilesEnabler(map,13,15);
-                imgOfflineIndicator = document.getElementById("img-offline-indicator");
-                imgOfflineIndicator.offlineColor = "blue";
-                btnGetTiles = document.getElementById("btn-get-tiles");
+                function init(){
+                    offlineTilesEnabler = new OfflineTilesEnabler(map,13,15);
+                    appCacheManager = new AppCacheManager(true,true);
+//                    appCacheManager.on(appCacheManager.CACHE_EVENT,cacheEventHandler);
+//                    appCacheManager.on(appCacheManager.CACHE_ERROR,cacheErrorHandler);
 
-                btnGetTiles.onclick = function(evt){
-                    if(btnGetTiles.innerHTML == "Delete Tiles"){
-                        offlineTilesEnabler.deleteAllTiles(function(success,err){
-                            if(success == false){
-                                alert("There was a problem deleting the tile cache");
-                                btnGetTiles.innerHTML = "Get tiles";
-                            }
-                            else{
-                                console.log("success deleting tile cache");
-                            }
-                        }.bind(this))
+                    imgOfflineIndicator = document.getElementById("img-offline-indicator");
+                    imgOfflineIndicator.offlineColor = "blue";
+                    btnGetTiles = document.getElementById("btn-get-tiles");
+
+                    btnGetTiles.onclick = function(evt){
+                        if(btnGetTiles.innerHTML == "Delete Tiles"){
+                            offlineTilesEnabler.deleteAllTiles(function(success,err){
+                                if(success == false){
+                                    alert("There was a problem deleting the tile cache");
+                                    btnGetTiles.innerHTML = "Get tiles";
+                                }
+                                else{
+                                    console.log("success deleting tile cache");
+                                }
+                            }.bind(this))
+                        }
+                        else{
+                            updateOfflineUsage();
+                            offlineTilesEnabler.saveTilesLocally(evt);
+                        }
                     }
-                    else{
-                        updateOfflineUsage();
-                        offlineTilesEnabler.saveTilesLocally(evt);
+
+                    Offline.check();
+                    Offline.on('up down', updateState );
+
+                    imgOfflineIndicator.onclick = function(evt){
+                        if(imgOfflineIndicator.offlineColor == "blue"){
+                            imgOfflineIndicator.src = "images/red-pin.png";
+                            offlineTilesEnabler.goOffline();
+                            imgOfflineIndicator.offlineColor = "red";
+                        }
+                        else{
+                            imgOfflineIndicator.src = "images/blue-pin.png";
+                            offlineTilesEnabler.goOnline();
+                            imgOfflineIndicator.offlineColor = "blue";
+                        }
                     }
+
+                    map.reposition();
+                    map.resize();
                 }
 
-                Offline.check();
-                Offline.on('up down', updateState );
+                function cacheEventHandler(evt){
+                    console.log("CACHE EVENT: " + evt);
+                }
 
-                imgOfflineIndicator.onclick = function(evt){
-                    if(imgOfflineIndicator.offlineColor == "blue"){
-                        imgOfflineIndicator.src = "images/red-pin.png";
-                        offlineTilesEnabler.goOffline();
-                        imgOfflineIndicator.offlineColor = "red";
-                    }
-                    else{
+                function cacheErrorHandler(evt){
+                    console.log("CACHE ERROR: " + evt);
+                }
+
+                function updateState(){
+                    if(Offline.state === 'up'){
                         imgOfflineIndicator.src = "images/blue-pin.png";
                         offlineTilesEnabler.goOnline();
-                        imgOfflineIndicator.offlineColor = "blue";
+                    }
+                    else{
+                        imgOfflineIndicator.src = "images/red-pin.png";
+                        offlineTilesEnabler.goOffline();
                     }
                 }
-            }
 
-            function updateState(){
-                if(Offline.state === 'up'){
-                    imgOfflineIndicator.src = "images/blue-pin.png";
-                    offlineTilesEnabler.goOnline();
-                }
-                else{
-                    imgOfflineIndicator.src = "images/red-pin.png";
-                    offlineTilesEnabler.goOffline();
+
+                function updateOfflineUsage()
+                {
+                    //offlineTilesEnabler.getEstimateTileCount();
                 }
             }
-
-
-            function updateOfflineUsage()
-            {
-//                 offlineTilesEnabler.getEstimateTileCount();
-            }
-        });
+        );
     </script>
 </head>
 
