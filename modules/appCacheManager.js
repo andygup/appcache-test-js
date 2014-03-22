@@ -29,7 +29,7 @@ define([
                     window.applicationCache.addEventListener('updateready', function(evt) {
                         if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
                             // Browser downloaded a new app cache.
-                            if (confirm('A new version of this site is available. Load it?')) {
+                            if (confirm('A new version of this cache is available.')) {
                                 window.location.reload();
                                 console.log("App cache reloaded");
                                 //this.emit(this.UPDATE_READY,null);
@@ -99,12 +99,12 @@ define([
             },
 
             _handleCacheEvents:function(evt){
-                console.log("App cache event " + evt);
+                console.log("App cache event " + JSON.stringify(evt));
                 //this.emit(this.CACHE_EVENT,evt);
             },
 
             _handleCacheErrors:function(evt){
-                console.log("App cache error " + evt);
+                console.log("App cache error " + JSON.stringify(evt));
                 //this.emit(this.CACHE_EVENT,evt);
             }
         })
