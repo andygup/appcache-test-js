@@ -91,22 +91,18 @@
                     btnGetTiles = document.getElementById("btn-get-tiles");
 
                     btnGetTiles.onclick = function(evt){
-                        if(btnGetTiles.innerHTML == "Delete Tiles"){
-                            offlineTilesEnabler.deleteAllTiles(function(success,err){
-                                if(success == false){
-                                    alert("There was a problem deleting the tile cache");
-                                    btnGetTiles.innerHTML = "Get tiles";
-                                }
-                                else{
-                                    console.log("success deleting tile cache");
-                                }
-                            }.bind(this))
-                        }
-                        else{
-                            updateOfflineUsage();
-                            offlineTilesEnabler.saveTilesLocally(evt);
-                        }
-                    }
+
+                        offlineTilesEnabler.deleteTileCache(function(success,err){
+                            if(success == false){
+                                alert("There was a problem deleting the tile cache");
+                                btnGetTiles.innerHTML = "Get tiles";
+                            }
+                            else{
+                                console.log("success deleting tile cache");
+                                offlineTilesEnabler.saveTilesLocally(evt);
+                            }
+                        }.bind(this))
+                    }.bind(this)
 
                     Offline.check();
                     Offline.on('up down', updateState );
