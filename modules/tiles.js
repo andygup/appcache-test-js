@@ -58,22 +58,11 @@ define([
 
             goOnline: function()
             {
-//                // this causes pending edits to be sent to the server
-//                // and subsequent edits to go directly to the server
-//                // only applies to map notes
-//                _offlineFeaturesManager.goOnline(function()
-//                {
-//                    // TODO: give feedback to the user, all his edits have been stored
-//                });
-
                 this._baseMapLayer.goOnline();
             },
 
             goOffline: function()
             {
-//                // this causes edits to map notes to be kept in local storage
-//                // until goOnline() is called again
-//                _offlineFeaturesManager.goOffline();
                 this._baseMapLayer.goOffline();
             },
 
