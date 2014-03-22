@@ -96,13 +96,13 @@ define([
                     if( progress.cancelRequested )
                     {
                         this.globalState.downloadState = 'cancelled';
-                        this._btnGetTiles.innerHTML = 'Get Tiles';
                     }
                     else
                     {
                         this.globalState.downloadState = 'downloaded';
-                        this._btnGetTiles.innerHTML = 'Delete Tiles';
                     }
+
+                    this._btnGetTiles.innerHTML = 'Get Tiles';
                 }
                 return this._wantToCancel; //determines if a cancel request has been issued
             },
@@ -116,7 +116,7 @@ define([
                     if( success )
                     {
                         //using null sets this for CORS
-                        this._baseMapLayer.offline.proxyPath = null; //"libs/offline-editor-js/resource-proxy/proxy.php";
+                        this._baseMapLayer.offline.proxyPath = null;
                         console.log("Offline tile lib is enabled");
                     }
                     else
