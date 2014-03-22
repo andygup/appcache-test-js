@@ -19,7 +19,7 @@ define([
             {
                 if(autoUpdate)this.setUdpateCache();
                 if(setListeners)this.setCacheListeners();
-                console.log("this.appCacheManager enabled");
+                console.log("appCacheManager.js enabled");
             },
 
             setUdpateCache:function(){
@@ -32,12 +32,12 @@ define([
                             if (confirm('A new version of this cache is available.')) {
                                 window.location.reload();
                                 console.log("App cache reloaded");
-                                //this.emit(this.UPDATE_READY,null);
+                                this.emit(this.UPDATE_READY,null);
                             }
                         } else {
                             // Manifest didn't changed. Nothing new to server.
                             console.log("App cache no change");
-                            //this.emit(this.UPDATE_NONE,null);
+                            this.emit(this.UPDATE_NONE,null);
                         }
                     }, false);
 
@@ -99,13 +99,11 @@ define([
             },
 
             _handleCacheEvents:function(evt){
-                console.log("App cache event " + JSON.stringify(evt));
-                //this.emit(this.CACHE_EVENT,evt);
+                this.emit(this.CACHE_EVENT,evt);
             },
 
             _handleCacheErrors:function(evt){
-                console.log("App cache error " + JSON.stringify(evt));
-                //this.emit(this.CACHE_EVENT,evt);
+                this.emit(this.CACHE_EVENT,evt);
             }
         })
     }
