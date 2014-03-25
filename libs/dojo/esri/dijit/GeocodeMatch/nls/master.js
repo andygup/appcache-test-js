@@ -1,3 +1,0 @@
-//>>built
-define("esri/dijit/GeocodeMatch/nls/master",{root:{customLabel:"Custom",match:{gridTitle:"Match Candidates",infoWindowTitle:"Match Candidate",mapAllCandidatesLabel:"Map All Candidates",tableOptionsLabel:"Table Options",columnLabelMatched:"Matched",columnLabelAddress:"Address",columnLabelType:"Type",columnLabelScore:"Score",idProperty:"id",noDataMsg:"No Results.",userCreatedLabel:"User Created"},popup:{matchButtonLabel:"Match",discardButtonLabel:"Discard"}}});
-//@ sourceMappingURL=master.js.map
