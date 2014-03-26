@@ -1,28 +1,28 @@
 CACHE MANIFEST
-# v3.7
+# v3.8
 # home page
 index.html
 # ArcGIS API for JavaScript files
 http://js.arcgis.com/3.8/js/esri/css/esri.css
-libs/dojo/dojo/dojo.js
-libs/dojo/dojo/main.js
-libs/dojo/dojox/gfx/svg.js
-libs/dojo/dojo/_base/browser.js
-libs/dojo/dojox/gfx/shape.js
-libs/dojo/dojo/nls/dojo_en-us.js
-libs/dojo/dojox/gfx/shape.js
-libs/dojo/dojox/gfx/path.js
-libs/dojo/dojo/request.js
-libs/dojo/dojo/_base/NodeList.js
-libs/dojo/dojo/selector/acme.js
-libs/dojo/dojo/_base/loader.js
-libs/dojo/dojo/request/default.js
-libs/dojo/esri/geometry.js
-libs/dojo/esri/geometry/geodesicUtils.js
-libs/dojo/esri/geometry/normalizeUtils.js
-libs/dojo/esri/dijit/Attribution.js
-libs/dojo/esri/units.js
-libs/dojo/dojo/fx/Toggler.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/dojo.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/main.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojox/gfx/svg.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/_base/browser.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojox/gfx/shape.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/nls/dojo_en-us.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojox/gfx/shape.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojox/gfx/path.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/request.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/_base/NodeList.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/selector/acme.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/_base/loader.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/request/default.js
+http://jsdev.arcgis.com/o/andygup/appcache1/esri/geometry.js
+http://jsdev.arcgis.com/o/andygup/appcache1/esri/geometry/geodesicUtils.js
+http://jsdev.arcgis.com/o/andygup/appcache1/esri/geometry/normalizeUtils.js
+http://jsdev.arcgis.com/o/andygup/appcache1/esri/dijit/Attribution.js
+http://jsdev.arcgis.com/o/andygup/appcache1/esri/units.js
+http://jsdev.arcgis.com/o/andygup/appcache1/dojo/fx/Toggler.js
 http://js.arcgis.com/3.8/js/esri/images/map/logo-sm.png
 http://js.arcgis.com/3.8/js/esri/images/map/logo-med.png
 http://services.arcgisonline.com/ArcGIS/rest/info?f=json
