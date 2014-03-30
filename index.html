@@ -23,16 +23,18 @@
             background: #000000;
             color: #ffffff;
             width: 100%;
-            height: 40px;
+            height: 50px;
         }
-        #btn-get-tiles{
-            position: relative; float: right;
-            padding: 5px;
-            border-radius: 3px;
+        .basic-btn{
+            background-color: #000000;
+            border-color: #ffffff 1px;
+            color: #ffffff;
+            padding: 8px;
+            position: relative; float: left;
         }
         #img-offline-indicator{
-            padding-left: 8px;
-            position: relative; float: left;
+            padding: 8px;
+            position: relative; float: right;
         }
     </style>
     <script>
@@ -63,7 +65,7 @@
     </script>
     <script>
         var map;
-        var imgOfflineIndicator,btnGetTiles;
+        var imgOfflineIndicator,btnGetTiles,btnOnlineOffline;
         var offlineTilesEnabler,appCacheManager;
 
         require(["esri/map","custom/tiles","custom/appCacheManager","dojo/on","dojo/domReady!"],
@@ -107,18 +109,18 @@
                     Offline.check();
                     Offline.on('up down', updateState );
 
-                    imgOfflineIndicator.onclick = function(evt){
-                        if(imgOfflineIndicator.offlineColor == "blue"){
-                            imgOfflineIndicator.src = "images/red-pin.png";
-                            offlineTilesEnabler.goOffline();
-                            imgOfflineIndicator.offlineColor = "red";
-                        }
-                        else{
-                            imgOfflineIndicator.src = "images/blue-pin.png";
-                            offlineTilesEnabler.goOnline();
-                            imgOfflineIndicator.offlineColor = "blue";
-                        }
-                    }
+//                    imgOfflineIndicator.onclick = function(evt){
+//                        if(imgOfflineIndicator.offlineColor == "blue"){
+//                            imgOfflineIndicator.src = "images/red-pin.png";
+//                            offlineTilesEnabler.goOffline();
+//                            imgOfflineIndicator.offlineColor = "red";
+//                        }
+//                        else{
+//                            imgOfflineIndicator.src = "images/blue-pin.png";
+//                            offlineTilesEnabler.goOnline();
+//                            imgOfflineIndicator.offlineColor = "blue";
+//                        }
+//                    }
 
                     map.reposition();
                     map.resize();
@@ -150,13 +152,28 @@
                 }
             }
         );
+
+        function goOnlineOffline(){
+            if(imgOfflineIndicator.offlineColor == "blue"){
+                imgOfflineIndicator.src = "images/red-pin.png";
+                offlineTilesEnabler.goOffline();
+                imgOfflineIndicator.offlineColor = "red";
+            }
+            else{
+                imgOfflineIndicator.src = "images/blue-pin.png";
+                offlineTilesEnabler.goOnline();
+                imgOfflineIndicator.offlineColor = "blue";
+            }
+        }
     </script>
 </head>
 
 <body>
 <div id="button-div1">
-    <img id="img-offline-indicator" src="images/blue-pin.png"/>
-    <button id="btn-get-tiles">Get Tiles</button>
+    <img id="img-offline-indicator" onclick="goOnlineOffline()" src="images/blue-pin.png"/>
+    <button class="basic-btn" onclick="goOnlineOffline()" id="btn-online-offline">1. Go Offline</button>
+    <button class="basic-btn" id="btn-get-tiles">2. Download Tiles</button>
+    <button class="basic-btn" id="btn-zoom-out">3. Zoom Out</button>
 </div>
 <div id="map"></div>
 </body>
