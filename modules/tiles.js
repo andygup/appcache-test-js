@@ -20,6 +20,7 @@ define([
             _baseMapLayer:null,
             globalState:{},
             EXTEND_LAYER_COMPLETE_EVENT:"extendLayerComplete",
+            EXTENT_BUFFER:100, //buffers the map extent in meters
 
             constructor: function(/* Map */ map, /* int */ minZoom, /* int */ maxZoom)
             {
@@ -44,7 +45,7 @@ define([
                 {
                     var minLevel = this._minZoom;
                     var maxLevel = this._maxZoom;
-                    var extent = this.getExtentBuffer(500);
+                    var extent = this.getExtentBuffer(this.EXTENT_BUFFER);
                     this._wantToCancel = false;
                     this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(this,this._reportProgress));
                     this.globalState.downloadState = 'downloading';
@@ -107,7 +108,7 @@ define([
 
                     for(var level=this._minZoom; level<=this._maxZoom; level++)
                     {
-                        var levelEstimation = this._baseMapLayer.getLevelEstimation(this._map.extent,level,tileSize);
+                        var levelEstimation = this._baseMapLayer.getLevelEstimation(this.getExtentBuffer(this.EXTENT_BUFFER),level,tileSize);
 
                         totalEstimation.tileCount += levelEstimation.tileCount;
                         totalEstimation.sizeBytes += levelEstimation.sizeBytes;
