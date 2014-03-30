@@ -1,6 +1,6 @@
 "use strict"
 /**
- * Helper module for working with offlineTilesEnabler.js
+ * Helper class for working with offlineTilesEnabler.js
  */
 define([
     "dojo/_base/declare",
@@ -21,12 +21,11 @@ define([
             globalState:{},
             EXTEND_LAYER_COMPLETE_EVENT:"extendLayerComplete",
 
-            constructor: function(map,minZoom,maxZoom)
+            constructor: function(/* Map */ map, /* int */ minZoom, /* int */ maxZoom)
             {
                 this._map = map;
-                if(typeof minZoom != "undefined" || minZoom == "null")this._minZoom = minZoom;
-                if(typeof maxZoom != "undefined" || minZoom == "null")this._maxZoom = maxZoom;
-                this._maxZoom = maxZoom;
+                if(typeof minZoom != "undefined" || minZoom != "null")this._minZoom = minZoom;
+                if(typeof maxZoom != "undefined" || maxZoom != "null")this._maxZoom = maxZoom;
                 this._initOfflineTiles(map);
                 this._btnGetTiles = document.getElementById("btn-get-tiles");
             },
@@ -45,10 +44,7 @@ define([
                 {
                     var minLevel = this._minZoom;
                     var maxLevel = this._maxZoom;
-                    var extent = this._map.extent;
-                    var buffer = 500; /* approx meters (webmercator units) */
-                    extent.xmin -= buffer; extent.ymin -= buffer;
-                    extent.xmax += buffer; extent.ymax += buffer;
+                    var extent = this.getExtentBuffer(500);
                     this._wantToCancel = false;
                     this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(this,this._reportProgress));
                     this.globalState.downloadState = 'downloading';
@@ -69,6 +65,18 @@ define([
             goOffline: function()
             {
                 this._baseMapLayer.goOffline();
+            },
+
+            /**
+             * Returns a new extent based on a buffer of meters in web mercator units
+             * @param buffer
+             * @returns {*}
+             */
+            getExtentBuffer: function(/* int */ buffer){
+                var extent = this._map.extent;
+                extent.xmin -= buffer; extent.ymin -= buffer;
+                extent.xmax += buffer; extent.ymax += buffer;
+                return extent;
             },
 
             getTileUrls: function(){
