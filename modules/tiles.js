@@ -82,13 +82,9 @@ define([
                 {
                     cells.push({ level: level, row: cell_id[1], col: cell_id[0]});
                 });
-                try{
+
                 var url = this._baseMapLayer.getTileUrl(cells[0].level,cells[0].row,cells[0].col);
-                }catch(err){
-                    console.log("hahaha " + JSON.stringify(err))
-                }
-                console.log("URL BABY " + url)
-                console.log("test " + JSON.stringify(cells));
+
                 this._baseMapLayer._lastTileUrl = url;
                 this._baseMapLayer.estimateTileSize(function(tileSize){
 
@@ -124,7 +120,7 @@ define([
                         this.globalState.downloadState = 'downloaded';
                     }
 
-                    this._btnGetTiles.innerHTML = 'Get Tiles';
+                    this._btnGetTiles.innerHTML = '1. Get Tiles';
                 }
                 return this._wantToCancel; //determines if a cancel request has been issued
             },

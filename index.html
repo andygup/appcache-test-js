@@ -72,7 +72,7 @@
     </script>
     <script>
         var map;
-        var imgOfflineIndicator,btnGetTiles,btnOnlineOffline;
+        var imgOfflineIndicator,btnGetTiles,btnOnlineOffline,btnZoom;
         var tiles,appCacheManager,tileInfo;
 
         require(["esri/map","custom/tiles","custom/appCacheManager","dojo/on","dojo/domReady!"],
@@ -80,7 +80,7 @@
                 map = new Map("map", {
                     basemap: "topo",
                     center: [-122.45,37.75], // long, lat
-                    zoom: 13,
+                    zoom: 14,
                     sliderStyle: "small"
                 });
 
@@ -90,9 +90,13 @@
                 })
 
                 function init(){
-                    tiles = new Tiles(map,13,15);
+                    tiles = new Tiles(map,14,16);
                     tiles.on("extendLayerComplete",function(){
                         console.log("COMPLETE")
+                        updateOfflineUsage();
+                    })
+
+                    map.on("extent-change",function(evt){
                         updateOfflineUsage();
                     })
                     appCacheManager = new AppCacheManager(true,true);
@@ -102,22 +106,11 @@
                     imgOfflineIndicator = document.getElementById("img-offline-indicator");
                     imgOfflineIndicator.offlineColor = "blue";
                     btnGetTiles = document.getElementById("btn-get-tiles");
+                    btnOnlineOffline = document.getElementById("btn-online-offline");
+                    btnZoom = document.getElementById("btn-zoom-out");
+
                     tileInfo = document.getElementById("tile-info")
                     tileInfo.innerHTML = "Tile count: 0\r\nBytes: 0";
-
-                    btnGetTiles.onclick = function(evt){
-
-                        tiles.deleteTileCache(function(success,err){
-                            if(success == false){
-                                alert("There was a problem deleting the tile cache");
-                                btnGetTiles.innerHTML = "Get tiles";
-                            }
-                            else{
-                                console.log("success deleting tile cache");
-                                tiles.saveTilesLocally(evt);
-                            }
-                        }.bind(this))
-                    }.bind(this)
 
                     Offline.check();
                     Offline.on('up down', updateState );
@@ -156,17 +149,35 @@
             }
         );
 
+        function downloadTiles(){
+            tiles.deleteTileCache(function(success,err){
+                if(success == false){
+                    alert("There was a problem deleting the tile cache");
+                }
+                else{
+                    console.log("success deleting tile cache");
+                    tiles.saveTilesLocally(this);
+                }
+            })
+        }
+
         function goOnlineOffline(){
             if(imgOfflineIndicator.offlineColor == "blue"){
+                btnOnlineOffline.innerHTML = "2. Go Online";
                 imgOfflineIndicator.src = "images/red-pin.png";
-                tiles.goOffline();
                 imgOfflineIndicator.offlineColor = "red";
+                tiles.goOffline();
             }
             else{
+                btnOnlineOffline.innerHTML = "2. Go Offline";
                 imgOfflineIndicator.src = "images/blue-pin.png";
-                tiles.goOnline();
                 imgOfflineIndicator.offlineColor = "blue";
+                tiles.goOnline();
             }
+        }
+
+        function zoomInOut(){
+            map.setZoom(map.getLevel() - 1);
         }
     </script>
 </head>
@@ -175,9 +186,9 @@
 <div id="button-div1">
     <img id="img-offline-indicator" onclick="goOnlineOffline()" src="images/blue-pin.png"/>
     <textarea contenteditable="false" id="tile-info"></textarea>
-    <button class="basic-btn" onclick="goOnlineOffline()" id="btn-online-offline">1. Go Offline</button>
-    <button class="basic-btn" id="btn-get-tiles">2. Download Tiles</button>
-    <button class="basic-btn" id="btn-zoom-out">3. Zoom Out</button>
+    <button class="basic-btn" onclick="btnGetTiles()">1. Download Tiles</button>
+    <button class="basic-btn" onclick="goOnlineOffline()" id="btn-online-offline">2. Go Offline</button>
+    <button class="basic-btn" id="btn-zoom-out" onclick="zoomInOut()">3. Zoom Out</button>
 </div>
 <div id="map"></div>
 </body>
