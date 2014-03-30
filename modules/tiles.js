@@ -71,8 +71,7 @@ define([
                 this._baseMapLayer.goOffline();
             },
 
-            getEstimateTileCount: function(callback)
-            {
+            getTileUrls: function(){
                 var level = this._minZoom;
                 var tilingScheme = new TilingScheme(this._baseMapLayer);
                 var level_cell_ids = tilingScheme.getAllCellIdsInExtent(this._map.extent,level);
@@ -80,11 +79,19 @@ define([
 
                 level_cell_ids.forEach(function(cell_id)
                 {
-                    cells.push({ level: level, row: cell_id[1], col: cell_id[0]});
-                });
+                    cells.push(this._baseMapLayer.getTileUrl(level,cell_id[1],cell_id[0]))
+                }.bind(this));
 
-                var url = this._baseMapLayer.getTileUrl(cells[0].level,cells[0].row,cells[0].col);
+                return cells;
+            },
 
+            /**
+             * Gets tile count and size estimates. Not perfect.
+             * @param callback
+             */
+            getEstimateTileCount: function(callback)
+            {
+                var url = this.getTileUrls()[0];
                 this._baseMapLayer._lastTileUrl = url;
                 this._baseMapLayer.estimateTileSize(function(tileSize){
 
