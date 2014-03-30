@@ -12,23 +12,25 @@ define([
         return declare([Evented], {
 
             _map: null,
-            _minZoom: 13,
-            _maxZoom: 15,
+            _minZoomAdjust: -1,
+            _maxZoomAdjust: 1,
+            _maxZoom:null,
+            _minZoom:null,
             _btnGetTiles:null,
             _wantToCancel: false,
             _offlineTilesEnabler:null,
             _baseMapLayer:null,
             globalState:{},
             EXTEND_LAYER_COMPLETE_EVENT:"extendLayerComplete",
-            EXTENT_BUFFER:100, //buffers the map extent in meters
+            EXTENT_BUFFER:0, //buffers the map extent in meters
 
-            constructor: function(/* Map */ map, /* int */ minZoom, /* int */ maxZoom)
+            constructor: function(/* Map */ map)
             {
                 this._map = map;
-                if(typeof minZoom != "undefined" || minZoom != "null")this._minZoom = minZoom;
-                if(typeof maxZoom != "undefined" || maxZoom != "null")this._maxZoom = maxZoom;
                 this._initOfflineTiles(map);
                 this._btnGetTiles = document.getElementById("btn-get-tiles");
+                this._maxZoom = map.getMaxZoom();
+                this._minZoom = map.getMinZoom();
             },
 
             saveTilesLocally: function(evt){
@@ -43,8 +45,8 @@ define([
                 }
                 else
                 {
-                    var minLevel = this._minZoom;
-                    var maxLevel = this._maxZoom;
+                    var minLevel = this._map.getLevel() + this._minZoomAdjust;
+                    var maxLevel = this._map.getLevel() + this._maxZoomAdjust;
                     var extent = this.getExtentBuffer(this.EXTENT_BUFFER);
                     this._wantToCancel = false;
                     this._baseMapLayer.prepareForOffline(minLevel, maxLevel, extent, lang.hitch(this,this._reportProgress));
@@ -99,7 +101,7 @@ define([
              */
             getEstimateTileCount: function(callback)
             {
-                var extent = this.getExtentBuffer(100);
+                var extent = this.getExtentBuffer(this.EXTENT_BUFFER);
                 var level = this._map.getLevel();
                 var url = this.getTileUrls(extent,level)[0];
                 this._baseMapLayer._lastTileUrl = url;
@@ -107,7 +109,12 @@ define([
 
                     var totalEstimation = {tileCount:0,sizeBytes:0};
 
-                    for(var level=this._minZoom; level<=this._maxZoom; level++)
+                    var min = this._map.getLevel() + this._minZoomAdjust;
+                    var max = this._map.getLevel() + this._maxZoomAdjust;
+                    var maxZoom = Math.min(this._maxZoom, max);  //prevent errors by setting the tile layer floor
+                    var minZoom = Math.max(this._minZoom,min);   //prevent errors by setting the tile layer ceiling
+
+                    for(var level = minZoom; level<= maxZoom; level++)
                     {
                         var levelEstimation = this._baseMapLayer.getLevelEstimation(this.getExtentBuffer(this.EXTENT_BUFFER),level,tileSize);
 

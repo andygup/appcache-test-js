@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!--<html manifest="offline2.appcache">-->
-<html>
+<html manifest="offline2.appcache">
+<!--<html>-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
@@ -90,7 +90,7 @@
                 })
 
                 function init(){
-                    tiles = new Tiles(map,14,16);
+                    tiles = new Tiles(map);
                     tiles.on("extendLayerComplete",function(){
                         console.log("COMPLETE")
                         updateOfflineUsage();
@@ -98,6 +98,7 @@
 
                     map.on("extent-change",function(evt){
                         updateOfflineUsage();
+                        console.log("Zoom level = " + map.getLevel())
                     })
                     appCacheManager = new AppCacheManager(true,true);
                     appCacheManager.on(appCacheManager.CACHE_EVENT,cacheEventHandler);
