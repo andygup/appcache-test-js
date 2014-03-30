@@ -80,7 +80,7 @@
                 map = new Map("map", {
                     basemap: "topo",
                     center: [-122.45,37.75], // long, lat
-                    zoom: 14,
+                    zoom: 18,
                     sliderStyle: "small"
                 });
 
@@ -176,8 +176,8 @@
             }
         }
 
-        function zoomInOut(){
-            map.setZoom(map.getLevel() - 1);
+        function panLeft(){
+            map.panLeft();
         }
     </script>
 </head>
@@ -186,9 +186,9 @@
 <div id="button-div1">
     <img id="img-offline-indicator" onclick="goOnlineOffline()" src="images/blue-pin.png"/>
     <textarea contenteditable="false" id="tile-info"></textarea>
-    <button class="basic-btn" onclick="btnGetTiles()">1. Download Tiles</button>
+    <button class="basic-btn" id="btn-get-tiles" onclick="downloadTiles()">1. Download Tiles</button>
     <button class="basic-btn" onclick="goOnlineOffline()" id="btn-online-offline">2. Go Offline</button>
-    <button class="basic-btn" id="btn-zoom-out" onclick="zoomInOut()">3. Zoom Out</button>
+    <button class="basic-btn" id="btn-zoom-out" onclick="panLeft()">3. Pan left</button>
 </div>
 <div id="map"></div>
 </body>
