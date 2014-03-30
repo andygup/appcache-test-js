@@ -121,7 +121,7 @@ define([
                     }
                     else
                     {
-                        alert("error initializing storage - browser doesn't support indexeddb")
+                        alert("error initializing storage - browser doesn't support indexeddb or websql")
                     }
                 }.bind(this));
             }

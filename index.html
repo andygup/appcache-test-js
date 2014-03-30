@@ -67,10 +67,10 @@
     <script>
         var map;
         var imgOfflineIndicator,btnGetTiles,btnOnlineOffline;
-        var offlineTilesEnabler,appCacheManager;
+        var tiles,appCacheManager;
 
         require(["esri/map","custom/tiles","custom/appCacheManager","dojo/on","dojo/domReady!"],
-            function(Map,OfflineTilesEnabler,AppCacheManager,on) {
+            function(Map,Tiles,AppCacheManager,on) {
                 map = new Map("map", {
                     basemap: "topo",
                     center: [-122.45,37.75], // long, lat
@@ -80,11 +80,12 @@
 
                 map.on("load",function(evt){
                     init();
+                    updateOfflineUsage();
                     console.log("level: " + map.getLevel() + ", maxZoom: " + map.getMaxZoom());
                 })
 
                 function init(){
-                    offlineTilesEnabler = new OfflineTilesEnabler(map,13,15);
+                    tiles = new Tiles(map,13,15);
                     appCacheManager = new AppCacheManager(true,true);
                     appCacheManager.on(appCacheManager.CACHE_EVENT,cacheEventHandler);
                     appCacheManager.on(appCacheManager.CACHE_ERROR,cacheErrorHandler);
@@ -95,14 +96,14 @@
 
                     btnGetTiles.onclick = function(evt){
 
-                        offlineTilesEnabler.deleteTileCache(function(success,err){
+                        tiles.deleteTileCache(function(success,err){
                             if(success == false){
                                 alert("There was a problem deleting the tile cache");
                                 btnGetTiles.innerHTML = "Get tiles";
                             }
                             else{
                                 console.log("success deleting tile cache");
-                                offlineTilesEnabler.saveTilesLocally(evt);
+                                tiles.saveTilesLocally(evt);
                             }
                         }.bind(this))
                     }.bind(this)
@@ -125,18 +126,19 @@
                 function updateState(){
                     if(Offline.state === 'up'){
                         imgOfflineIndicator.src = "images/blue-pin.png";
-                        offlineTilesEnabler.goOnline();
+                        tiles.goOnline();
                     }
                     else{
                         imgOfflineIndicator.src = "images/red-pin.png";
-                        offlineTilesEnabler.goOffline();
+                        tiles.goOffline();
                     }
                 }
 
 
                 function updateOfflineUsage()
                 {
-                    //offlineTilesEnabler.getEstimateTileCount();
+                    var count = tiles.getEstimateTileCount();
+                    console.log("COUNT " + count)
                 }
             }
         );
@@ -144,12 +146,12 @@
         function goOnlineOffline(){
             if(imgOfflineIndicator.offlineColor == "blue"){
                 imgOfflineIndicator.src = "images/red-pin.png";
-                offlineTilesEnabler.goOffline();
+                tiles.goOffline();
                 imgOfflineIndicator.offlineColor = "red";
             }
             else{
                 imgOfflineIndicator.src = "images/blue-pin.png";
-                offlineTilesEnabler.goOnline();
+                tiles.goOnline();
                 imgOfflineIndicator.offlineColor = "blue";
             }
         }
