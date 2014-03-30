@@ -48,6 +48,7 @@
         }
     </script>
     <script src="http://jsdev.arcgis.com/o/andygup/appcache1/dojo/dojo.js" data-dojo-config="async: true"></script>
+    <!-- Use this tag below if you are hosting your ArcGIS API for JavaScript files locally -->
     <!--<script src="libs/dojo/dojo/dojo.js" data-dojo-config="async: true"></script>-->
     <script src="libs/offline/offline.min.js"></script>
     <script src="libs/IndexedDBShim/dist/IndexedDBShim.min.js"></script>
@@ -108,19 +109,6 @@
 
                     Offline.check();
                     Offline.on('up down', updateState );
-
-//                    imgOfflineIndicator.onclick = function(evt){
-//                        if(imgOfflineIndicator.offlineColor == "blue"){
-//                            imgOfflineIndicator.src = "images/red-pin.png";
-//                            offlineTilesEnabler.goOffline();
-//                            imgOfflineIndicator.offlineColor = "red";
-//                        }
-//                        else{
-//                            imgOfflineIndicator.src = "images/blue-pin.png";
-//                            offlineTilesEnabler.goOnline();
-//                            imgOfflineIndicator.offlineColor = "blue";
-//                        }
-//                    }
 
                     map.reposition();
                     map.resize();
