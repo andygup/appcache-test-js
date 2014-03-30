@@ -113,21 +113,27 @@ define([
             _reportProgress: function(progress)
             {
                 console.log("downloading tiles...");
-                var percent = Math.floor(progress.countNow / progress.countMax * 100);
-                this._btnGetTiles.innerHTML = 'Saving to phone ' + percent + "% - Tap to Cancel";
+                if(progress.hasOwnProperty("countNow")){
+                    var percent = Math.floor(progress.countNow / progress.countMax * 100);
+                    this._btnGetTiles.innerHTML = 'Saving to phone ' + percent + "% - Tap to Cancel";
+                }
 
                 if( progress.finishedDownloading )
                 {
+                    this._btnGetTiles.innerHTML = "Saving to phone 100% - Tap to Cancel";
+
                     if( progress.cancelRequested )
                     {
                         this.globalState.downloadState = 'cancelled';
+                        alert("Tile download was cancelled");
                     }
                     else
                     {
                         this.globalState.downloadState = 'downloaded';
+                        alert("Tile download complete");
                     }
 
-                    this._btnGetTiles.innerHTML = '1. Get Tiles';
+                    this._btnGetTiles.innerHTML = '1. Download Tiles';
                 }
                 return this._wantToCancel; //determines if a cancel request has been issued
             },
