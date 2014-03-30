@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html manifest="offline2.appcache">
-<!--<html>-->
+<!--<html manifest="offline2.appcache">-->
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
@@ -80,12 +80,15 @@
 
                 map.on("load",function(evt){
                     init();
-                    updateOfflineUsage();
                     console.log("level: " + map.getLevel() + ", maxZoom: " + map.getMaxZoom());
                 })
 
                 function init(){
                     tiles = new Tiles(map,13,15);
+                    tiles.on("extendLayerComplete",function(){
+                        console.log("COMPLETE")
+                        updateOfflineUsage();
+                    })
                     appCacheManager = new AppCacheManager(true,true);
                     appCacheManager.on(appCacheManager.CACHE_EVENT,cacheEventHandler);
                     appCacheManager.on(appCacheManager.CACHE_ERROR,cacheErrorHandler);
@@ -137,8 +140,9 @@
 
                 function updateOfflineUsage()
                 {
-                    var count = tiles.getEstimateTileCount();
-                    console.log("COUNT " + count)
+                    var count = tiles.getEstimateTileCount(function(count){
+                        console.log("COUNT " + count)
+                    });
                 }
             }
         );

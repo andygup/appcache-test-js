@@ -1,11 +1,15 @@
 "use strict"
-
+/**
+ * Helper module for working with offlineTilesEnabler.js
+ */
 define([
     "dojo/_base/declare",
+    "dojo/Evented",
     "tiles/offlineTilesEnabler",
+    "tiles/tilingScheme",
     "dojo/_base/lang"],
-    function(declare,OfflineTilesEnabler,lang){
-        return declare(null, {
+    function(declare,Evented,OfflineTilesEnabler,TilingScheme,lang){
+        return declare([Evented], {
 
             _map: null,
             _minZoom: 13,
@@ -15,6 +19,7 @@ define([
             _offlineTilesEnabler:null,
             _baseMapLayer:null,
             globalState:{},
+            EXTEND_LAYER_COMPLETE_EVENT:"extendLayerComplete",
 
             constructor: function(map,minZoom,maxZoom)
             {
@@ -66,11 +71,28 @@ define([
                 this._baseMapLayer.goOffline();
             },
 
-            getEstimateTileCount: function()
+            getEstimateTileCount: function(callback)
             {
+                var level = this._minZoom;
+                var tilingScheme = new TilingScheme(this._baseMapLayer);
+                var level_cell_ids = tilingScheme.getAllCellIdsInExtent(this._map.extent,level);
+                var cells = [];
+
+                level_cell_ids.forEach(function(cell_id)
+                {
+                    cells.push({ level: level, row: cell_id[1], col: cell_id[0]});
+                });
+                try{
+                var url = this._baseMapLayer.getTileUrl(cells[0].level,cells[0].row,cells[0].col);
+                }catch(err){
+                    console.log("hahaha " + JSON.stringify(err))
+                }
+                console.log("URL BABY " + url)
+                console.log("test " + JSON.stringify(cells));
+                this._baseMapLayer._lastTileUrl = url;
                 this._baseMapLayer.estimateTileSize(function(tileSize){
 
-                    var totalEstimation;
+                    var totalEstimation = {tileCount:0,sizeBytes:0};
 
                     for(var level=this._minZoom; level<=this._maxZoom; level++)
                     {
@@ -81,8 +103,8 @@ define([
                     }
 
                     console.log("Size estimate: " + totalEstimation.sizeBytes + ", tile count: " + totalEstimation.tileCount)
-                    return totalEstimation;
-                })
+                    callback(totalEstimation);
+                }.bind(this))
             },
 
             _reportProgress: function(progress)
@@ -111,13 +133,20 @@ define([
 
                 this._offlineTilesEnabler = new OfflineTilesEnabler();
                 this._baseMapLayer = this._offlineTilesEnabler.getBasemapLayer(map);
+
                 this._offlineTilesEnabler.extend(this._baseMapLayer,function(success)
                 {
                     if( success )
                     {
+                        console.log("Offline tile lib is enabled");
+
                         //using null sets this for CORS
                         this._baseMapLayer.offline.proxyPath = null;
-                        console.log("Offline tile lib is enabled");
+
+                        this.emit(this.EXTEND_LAYER_COMPLETE_EVENT, {
+                            bubbles: true,
+                            cancelable: true
+                        });
                     }
                     else
                     {
