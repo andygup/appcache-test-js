@@ -82,14 +82,14 @@ define([
                 return extent;
             },
 
-            getTileUrls: function(extent,level){
+            getTileUrlsByExtent: function(extent,level){
                 var tilingScheme = new TilingScheme(this._baseMapLayer);
                 var level_cell_ids = tilingScheme.getAllCellIdsInExtent(extent,level);
                 var cells = [];
 
                 level_cell_ids.forEach(function(cell_id)
                 {
-                    cells.push(this._baseMapLayer.getTileUrl(level,cell_id[1],cell_id[0]))
+                    cells.push(this._baseMapLayer._url.path + "/" + level + "/" + cell_id[1] + "/" + cell_id[0])
                 }.bind(this));
 
                 return cells;
@@ -103,7 +103,7 @@ define([
             {
                 var extent = this.getExtentBuffer(this.EXTENT_BUFFER);
                 var level = this._map.getLevel();
-                var url = this.getTileUrls(extent,level)[0];
+                var url = this.getTileUrlsByExtent(extent,level)[0];
                 this._baseMapLayer._lastTileUrl = url;
                 this._baseMapLayer.estimateTileSize(function(tileSize){
 
