@@ -89,7 +89,7 @@ define([
 
                 level_cell_ids.forEach(function(cell_id)
                 {
-                    cells.push(this._baseMapLayer._url.path + "/" + level + "/" + cell_id[1] + "/" + cell_id[0])
+                    cells.push(this._baseMapLayer.url + "/" + level + "/" + cell_id[1] + "/" + cell_id[0])
                 }.bind(this));
 
                 return cells;
